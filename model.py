@@ -488,8 +488,10 @@ def count_trainable_params(model):
         if param.requires_grad
     )
 
-# Step 33 - merge_lora (not yet solved)
-# TODO: implement
+# Step 33 - merge_lora
+def merge_lora(base_weight, lora_a, lora_b, scaling):
+    # Compute the scaled low-rank LoRA update and add it to the base weight.
+    return base_weight + scaling * (lora_b @ lora_a)
 
 # Step 34 - build_synthetic_preference_dataset (not yet solved)
 # TODO: implement

@@ -42,7 +42,7 @@ python scaffold.py
 - [x] **30.** init_lora_weights
 - [x] **31.** freeze_base_params
 - [x] **32.** count_trainable_params
-- [ ] **33.** merge_lora
+- [x] **33.** merge_lora
 - [ ] **34.** build_synthetic_preference_dataset
 - [ ] **35.** format_preference
 - [ ] **36.** reward_head_forward
