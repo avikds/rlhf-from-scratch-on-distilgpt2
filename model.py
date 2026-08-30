@@ -293,8 +293,50 @@ def cross_entropy_loss(shift_logits, shift_labels):
     # Ignore masked positions (-100) while computing the mean loss.
     return F.cross_entropy(logits, labels, ignore_index=-100)
 
-# Step 22 - adamw_update (not yet solved)
-# TODO: implement
+# Step 22 - adamw_update
+import torch
+
+def adamw_update(
+    param,
+    grad,
+    state,
+    lr,
+    betas=(0.9, 0.999),
+    eps=1e-8,
+    weight_decay=0.0,
+):
+    """Apply one in-place AdamW step to `param` using `grad` and persistent `state`."""
+    beta1, beta2 = betas
+
+    # Initialize optimizer state on the first call.
+    if "step" not in state:
+        state["step"] = 0
+        state["m"] = torch.zeros_like(param)
+        state["v"] = torch.zeros_like(param)
+
+    # Increment step count.
+    state["step"] += 1
+    step = state["step"]
+
+    m = state["m"]
+    v = state["v"]
+
+    # Update first and second moments.
+    m.mul_(beta1).add_(grad, alpha=1.0 - beta1)
+    v.mul_(beta2).addcmul_(grad, grad, value=1.0 - beta2)
+
+    # Bias-corrected moments.
+    m_hat = m / (1.0 - beta1 ** step)
+    v_hat = v / (1.0 - beta2 ** step)
+
+    # Decoupled weight decay.
+    if weight_decay != 0.0:
+        param.mul_(1.0 - lr * weight_decay)
+
+    # AdamW parameter update.
+    param.addcdiv_(m_hat, v_hat.sqrt().add_(eps), value=-lr)
+
+    return state
 
 # Step 23 - linear_warmup_schedule (not yet solved)
 # TODO: implement
