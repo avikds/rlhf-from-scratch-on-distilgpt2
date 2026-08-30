@@ -89,8 +89,39 @@ def top_k_filter(logits, k):
 
     return filtered_logits
 
-# Step 8 - top_p_filter (not yet solved)
-# TODO: implement
+# Step 8 - top_p_filter
+def top_p_filter(logits, p):
+    # Accept both Python lists and PyTorch tensors.
+    logits = torch.as_tensor(logits)
+
+    # p=1 keeps the entire vocabulary unchanged.
+    if p >= 1.0:
+        return logits.clone()
+
+    # Sort logits from highest to lowest.
+    sorted_logits, sorted_indices = torch.sort(logits, descending=True)
+
+    # Convert sorted logits to probabilities.
+    sorted_probs = torch.softmax(sorted_logits, dim=-1)
+
+    # Compute cumulative probability.
+    cumulative_probs = torch.cumsum(sorted_probs, dim=-1)
+
+    # Remove tokens only after the cumulative probability crosses p.
+    # The token that first reaches/exceeds p is retained.
+    sorted_indices_to_remove = cumulative_probs > p
+    sorted_indices_to_remove[1:] = sorted_indices_to_remove[:-1].clone()
+    sorted_indices_to_remove[0] = False
+
+    # Map the sorted mask back to the original vocabulary order.
+    indices_to_remove = torch.zeros_like(sorted_indices_to_remove)
+    indices_to_remove[sorted_indices] = sorted_indices_to_remove
+
+    # Do not mutate the original tensor.
+    filtered_logits = logits.clone()
+    filtered_logits[indices_to_remove.bool()] = float("-inf")
+
+    return filtered_logits
 
 # Step 9 - build_synthetic_instruction_dataset (not yet solved)
 # TODO: implement
