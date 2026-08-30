@@ -944,8 +944,38 @@ def generate_completions(model, tokenizer, prompts, max_new_tokens=16):
         for prompt in prompts
     ]
 
-# Step 61 - score_with_reward (not yet solved)
-# TODO: implement
+# Step 61 - score_with_reward
+def score_with_reward(reward_model, tokenizer, prompt, completion):
+    """Return a scalar reward float for the prompt+completion pair."""
+    text = prompt + completion
+
+    # Tokenize the complete prompt + completion.
+    inputs = tokenizer(text, return_tensors="pt")
+
+    # Run the reward-model backbone without tracking gradients.
+    with torch.no_grad():
+        outputs = reward_model["model"](
+            input_ids=inputs["input_ids"],
+            attention_mask=inputs.get("attention_mask"),
+        )
+
+        # Support Hugging Face-style model outputs.
+        if hasattr(outputs, "last_hidden_state"):
+            hidden_states = outputs.last_hidden_state
+        else:
+            hidden_states = outputs
+
+        # Use the final hidden state from the last sequence position.
+        last_hidden = hidden_states[:, -1, :]
+
+        # Apply the scalar reward head.
+        reward = reward_head_forward(
+            last_hidden,
+            reward_model["weight"],
+            reward_model["bias"],
+        )
+
+    return float(reward.squeeze().item())
 
 # Step 62 - win_rate (not yet solved)
 # TODO: implement
