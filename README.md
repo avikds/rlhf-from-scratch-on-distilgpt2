@@ -51,7 +51,7 @@ python scaffold.py
 - [x] **39.** pairwise_accuracy
 - [x] **40.** reward_train_step
 - [x] **41.** sequence_logprob
-- [ ] **42.** per_token_kl
+- [x] **42.** per_token_kl
 - [ ] **43.** compute_returns
 - [ ] **44.** gae_advantages
 - [ ] **45.** policy_ratio

@@ -651,8 +651,12 @@ def sequence_logprob(logits, token_ids):
     # Sum across the sequence.
     return selected_log_probs.sum()
 
-# Step 42 - per_token_kl (not yet solved)
-# TODO: implement
+# Step 42 - per_token_kl
+def per_token_kl(policy_logprobs, ref_logprobs):
+    """Per-token KL estimate between policy and reference log-probs."""
+    # For sampled tokens, use the log-probability difference
+    # between the current policy and reference model.
+    return np.asarray(policy_logprobs) - np.asarray(ref_logprobs)
 
 # Step 43 - compute_returns (not yet solved)
 # TODO: implement
