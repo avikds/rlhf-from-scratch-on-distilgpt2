@@ -963,29 +963,21 @@ def score_with_reward(reward_model, tokenizer, prompt, completion):
     inputs = tokenizer(text, return_tensors="pt")
 
     with torch.no_grad():
-        # Pass only input_ids. This avoids compatibility problems with
-        # custom/test backbones that do not expect an attention-mask tensor.
+        # The reward backbone is called with the token IDs.
         outputs = reward_model["model"](inputs["input_ids"])
 
-        # Support either a raw hidden-state tensor or a Hugging Face-style
-        # output object containing last_hidden_state.
+        # Extract the hidden-state tensor.
         if torch.is_tensor(outputs):
             hidden_states = outputs
-        elif hasattr(outputs, "last_hidden_state"):
-            hidden_states = outputs.last_hidden_state
-        elif isinstance(outputs, (tuple, list)):
-            hidden_states = outputs[0]
-        elif isinstance(outputs, dict):
-            hidden_states = outputs["last_hidden_state"]
         else:
-            raise TypeError(
-                f"Unsupported reward backbone output type: {type(outputs).__name__}"
-            )
+            # Hugging Face ModelOutput objects are tuple-like, and their
+            # first item is the main hidden-state tensor for the backbone.
+            hidden_states = outputs[0]
 
-        # Use the hidden state at the final sequence position.
+        # Take the final-position hidden state.
         last_hidden = hidden_states[:, -1, :]
 
-        # Apply the scalar reward head.
+        # Project to a scalar reward.
         reward = reward_head_forward(
             last_hidden,
             reward_model["weight"],
