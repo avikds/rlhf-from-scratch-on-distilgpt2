@@ -40,7 +40,7 @@ python scaffold.py
 - [x] **28.** lora_delta
 - [x] **29.** lora_linear_forward
 - [x] **30.** init_lora_weights
-- [ ] **31.** freeze_base_params
+- [x] **31.** freeze_base_params
 - [ ] **32.** count_trainable_params
 - [ ] **33.** merge_lora
 - [ ] **34.** build_synthetic_preference_dataset
