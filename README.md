@@ -71,7 +71,7 @@ python scaffold.py
 - [x] **59.** build_eval_prompt_set
 - [x] **60.** generate_completions
 - [x] **61.** score_with_reward
-- [ ] **62.** win_rate
+- [x] **62.** win_rate
 - [ ] **63.** stream_tokens
 - [ ] **64.** apply_stop_tokens
 - [ ] **65.** chat

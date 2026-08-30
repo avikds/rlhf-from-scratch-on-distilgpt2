@@ -977,8 +977,42 @@ def score_with_reward(reward_model, tokenizer, prompt, completion):
 
     return float(reward.squeeze().item())
 
-# Step 62 - win_rate (not yet solved)
-# TODO: implement
+# Step 62 - win_rate
+def win_rate(reward_model, tokenizer, prompts, completions_a, completions_b):
+    """Fraction of prompts where A's completion outscores B's under the reward model.
+
+    Ties count as 0.5. Returns a float in [0, 1].
+    """
+    if len(prompts) != len(completions_a) or len(prompts) != len(completions_b):
+        raise ValueError("prompts and completion lists must have the same length")
+
+    if len(prompts) == 0:
+        return 0.0
+
+    wins = 0.0
+
+    for prompt, completion_a, completion_b in zip(
+        prompts, completions_a, completions_b
+    ):
+        reward_a = score_with_reward(
+            reward_model,
+            tokenizer,
+            prompt,
+            completion_a,
+        )
+        reward_b = score_with_reward(
+            reward_model,
+            tokenizer,
+            prompt,
+            completion_b,
+        )
+
+        if reward_a > reward_b:
+            wins += 1.0
+        elif reward_a == reward_b:
+            wins += 0.5
+
+    return wins / len(prompts)
 
 # Step 63 - stream_tokens (not yet solved)
 # TODO: implement
