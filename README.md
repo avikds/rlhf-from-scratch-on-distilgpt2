@@ -46,7 +46,7 @@ python scaffold.py
 - [x] **34.** build_synthetic_preference_dataset
 - [x] **35.** format_preference
 - [x] **36.** reward_head_forward
-- [ ] **37.** pairwise_reward_loss
+- [x] **37.** pairwise_reward_loss
 - [ ] **38.** reward_bce_loss
 - [ ] **39.** pairwise_accuracy
 - [ ] **40.** reward_train_step

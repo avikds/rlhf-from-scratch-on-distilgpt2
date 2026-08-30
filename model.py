@@ -538,8 +538,12 @@ def reward_head_forward(hidden_state, weight, bias):
 
     return hidden_state @ weight + bias
 
-# Step 37 - pairwise_reward_loss (not yet solved)
-# TODO: implement
+# Step 37 - pairwise_reward_loss
+def pairwise_reward_loss(chosen_reward, rejected_reward):
+    """Bradley-Terry pairwise loss: mean(-log_sigmoid(chosen - rejected))."""
+    reward_diff = chosen_reward - rejected_reward
+
+    return (-F.logsigmoid(reward_diff)).mean()
 
 # Step 38 - reward_bce_loss (not yet solved)
 # TODO: implement
