@@ -493,8 +493,37 @@ def merge_lora(base_weight, lora_a, lora_b, scaling):
     # Compute the scaled low-rank LoRA update and add it to the base weight.
     return base_weight + scaling * (lora_b @ lora_a)
 
-# Step 34 - build_synthetic_preference_dataset (not yet solved)
-# TODO: implement
+# Step 34 - build_synthetic_preference_dataset
+import random
+
+def build_synthetic_preference_dataset(num_examples=8, seed=0):
+    """Return a deterministic synthetic preference dataset."""
+    if num_examples <= 0:
+        return []
+
+    templates = [
+        {
+            "prompt": "What is the capital of France?",
+            "chosen": "The capital of France is Paris.",
+            "rejected": "I do not know.",
+        },
+        {
+            "prompt": "What is 2 + 2?",
+            "chosen": "2 + 2 equals 4.",
+            "rejected": "2 + 2 equals 5.",
+        },
+    ]
+
+    # Shuffle a copy deterministically using the supplied seed.
+    rng = random.Random(seed)
+    shuffled = list(templates)
+    rng.shuffle(shuffled)
+
+    # Repeat the shuffled templates if more examples are requested.
+    return [
+        shuffled[i % len(shuffled)].copy()
+        for i in range(num_examples)
+    ]
 
 # Step 35 - format_preference (not yet solved)
 # TODO: implement
