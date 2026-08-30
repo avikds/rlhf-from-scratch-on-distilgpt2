@@ -25,7 +25,7 @@ python scaffold.py
 - [x] **13.** build_labels
 - [x] **14.** mask_prompt_labels
 - [x] **15.** pad_batch
-- [ ] **16.** make_attention_mask
+- [x] **16.** make_attention_mask
 - [ ] **17.** collate_lm_batch
 - [ ] **18.** iterate_minibatches
 - [ ] **19.** train_val_split

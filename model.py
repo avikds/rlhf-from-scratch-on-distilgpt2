@@ -208,8 +208,13 @@ def pad_batch(sequences, pad_id):
         for sequence in sequences
     ]
 
-# Step 16 - make_attention_mask (not yet solved)
-# TODO: implement
+# Step 16 - make_attention_mask
+def make_attention_mask(padded_ids, pad_id):
+    # Mark real tokens with 1 and padding tokens with 0.
+    return [
+        [1 if token_id != pad_id else 0 for token_id in sequence]
+        for sequence in padded_ids
+    ]
 
 # Step 17 - collate_lm_batch (not yet solved)
 # TODO: implement
