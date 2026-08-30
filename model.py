@@ -186,8 +186,16 @@ def build_labels(input_ids):
     # Return an independent copy of input_ids for causal LM labels.
     return list(input_ids)
 
-# Step 14 - mask_prompt_labels (not yet solved)
-# TODO: implement
+# Step 14 - mask_prompt_labels
+def mask_prompt_labels(labels, prompt_length):
+    # Create a fresh copy so the input list is not mutated.
+    masked_labels = list(labels)
+
+    # Mask the prompt positions so they are ignored by cross-entropy loss.
+    for i in range(min(prompt_length, len(masked_labels))):
+        masked_labels[i] = -100
+
+    return masked_labels
 
 # Step 15 - pad_batch (not yet solved)
 # TODO: implement
