@@ -68,7 +68,7 @@ python scaffold.py
 - [x] **56.** kto_loss
 - [x] **57.** orpo_loss
 - [x] **58.** simpo_loss
-- [ ] **59.** build_eval_prompt_set
+- [x] **59.** build_eval_prompt_set
 - [ ] **60.** generate_completions
 - [ ] **61.** score_with_reward
 - [ ] **62.** win_rate

@@ -919,8 +919,17 @@ def simpo_loss(
 
     return -F.logsigmoid(logits).mean()
 
-# Step 59 - build_eval_prompt_set (not yet solved)
-# TODO: implement
+# Step 59 - build_eval_prompt_set
+def build_eval_prompt_set():
+    # Held-out, short, diverse instruction-style prompts for evaluation.
+    return [
+        "Explain why the sky appears blue.",
+        "Give three tips for learning a new programming language.",
+        "Write a short description of a peaceful morning.",
+        "What are two benefits of reading every day?",
+        "Explain the difference between RAM and storage.",
+        "Suggest a simple healthy breakfast.",
+    ]
 
 # Step 60 - generate_completions (not yet solved)
 # TODO: implement
