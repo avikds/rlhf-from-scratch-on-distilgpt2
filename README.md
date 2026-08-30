@@ -54,7 +54,7 @@ python scaffold.py
 - [x] **42.** per_token_kl
 - [x] **43.** compute_returns
 - [x] **44.** gae_advantages
-- [ ] **45.** policy_ratio
+- [x] **45.** policy_ratio
 - [ ] **46.** clipped_surrogate
 - [ ] **47.** value_function_loss
 - [ ] **48.** entropy_bonus

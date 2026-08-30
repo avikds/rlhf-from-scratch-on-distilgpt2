@@ -689,8 +689,10 @@ def gae_advantages(rewards, values, gamma=0.99, lam=0.95):
 
     return advantages
 
-# Step 45 - policy_ratio (not yet solved)
-# TODO: implement
+# Step 45 - policy_ratio
+def policy_ratio(new_logprobs, old_logprobs):
+    """Return the PPO importance ratio exp(new - old) elementwise."""
+    return torch.exp(new_logprobs - old_logprobs)
 
 # Step 46 - clipped_surrogate (not yet solved)
 # TODO: implement
