@@ -294,8 +294,6 @@ def cross_entropy_loss(shift_logits, shift_labels):
     return F.cross_entropy(logits, labels, ignore_index=-100)
 
 # Step 22 - adamw_update
-import torch
-
 def adamw_update(
     param,
     grad,
