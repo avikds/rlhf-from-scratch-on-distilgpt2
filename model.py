@@ -271,8 +271,14 @@ def train_val_split(examples, val_ratio=0.2, seed=0):
 
     return train, val
 
-# Step 20 - shift_logits_and_labels (not yet solved)
-# TODO: implement
+# Step 20 - shift_logits_and_labels
+def shift_logits_and_labels(logits, labels):
+    # Drop the last logit position and the first label position
+    # so that each token prediction is scored against the next token.
+    shift_logits = logits[:, :-1, :]
+    shift_labels = labels[:, 1:]
+
+    return shift_logits, shift_labels
 
 # Step 21 - cross_entropy_loss (not yet solved)
 # TODO: implement
