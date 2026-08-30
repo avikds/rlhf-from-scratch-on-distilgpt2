@@ -36,7 +36,7 @@ python scaffold.py
 - [x] **24.** clip_grad_norm
 - [x] **25.** accumulate_gradients
 - [x] **26.** sft_train_step
-- [ ] **27.** evaluate_loss
+- [x] **27.** evaluate_loss
 - [ ] **28.** lora_delta
 - [ ] **29.** lora_linear_forward
 - [ ] **30.** init_lora_weights
