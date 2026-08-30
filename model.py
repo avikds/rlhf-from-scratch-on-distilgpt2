@@ -153,8 +153,15 @@ def build_synthetic_instruction_dataset():
         },
     ]
 
-# Step 10 - format_example (not yet solved)
-# TODO: implement
+# Step 10 - format_example
+def format_example(example):
+    # Render the instruction example using the exact required template.
+    return (
+        f"### Instruction:\n"
+        f"{example['prompt']}\n\n"
+        f"### Response:\n"
+        f"{example['response']}"
+    )
 
 # Step 11 - apply_template (not yet solved)
 # TODO: implement
