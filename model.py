@@ -433,8 +433,10 @@ def evaluate_loss(model, batches):
 
     return total_loss / num_batches
 
-# Step 28 - lora_delta (not yet solved)
-# TODO: implement
+# Step 28 - lora_delta
+def lora_delta(A, B, alpha, r):
+    # Compute the low-rank update B @ A and scale it by alpha / r.
+    return (alpha / r) * (B @ A)
 
 # Step 29 - lora_linear_forward (not yet solved)
 # TODO: implement
