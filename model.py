@@ -564,8 +564,77 @@ def pairwise_accuracy(chosen_reward, rejected_reward):
     correct = (chosen_reward > rejected_reward).float()
     return float(correct.mean().item())
 
-# Step 40 - reward_train_step (not yet solved)
-# TODO: implement
+# Step 40 - reward_train_step
+def reward_train_step(model, reward_head, batch, optimizer):
+    # Clear gradients from the previous optimization step.
+    optimizer.zero_grad()
+
+    # Forward chosen and rejected sequences.
+    chosen_output = model(
+        input_ids=batch["chosen_input_ids"],
+        attention_mask=batch["chosen_attention_mask"],
+    )
+    rejected_output = model(
+        input_ids=batch["rejected_input_ids"],
+        attention_mask=batch["rejected_attention_mask"],
+    )
+
+    # The project scaffold specifies that the model may return
+    # the hidden-state tensor directly. Also support HF-style outputs.
+    if torch.is_tensor(chosen_output):
+        chosen_hidden = chosen_output
+    else:
+        chosen_hidden = chosen_output.last_hidden_state
+
+    if torch.is_tensor(rejected_output):
+        rejected_hidden = rejected_output
+    else:
+        rejected_hidden = rejected_output.last_hidden_state
+
+    # Find the last non-padding token for each sequence.
+    chosen_last_idx = batch["chosen_attention_mask"].sum(dim=1).long() - 1
+    rejected_last_idx = batch["rejected_attention_mask"].sum(dim=1).long() - 1
+
+    batch_idx = torch.arange(
+        chosen_hidden.size(0),
+        device=chosen_hidden.device,
+    )
+
+    chosen_final = chosen_hidden[batch_idx, chosen_last_idx]
+    rejected_final = rejected_hidden[batch_idx, rejected_last_idx]
+
+    # Compute scalar rewards.
+    chosen_reward = reward_head_forward(
+        chosen_final,
+        reward_head.weight,
+        reward_head.bias,
+    )
+    rejected_reward = reward_head_forward(
+        rejected_final,
+        reward_head.weight,
+        reward_head.bias,
+    )
+
+    # Bradley-Terry pairwise reward loss.
+    loss = pairwise_reward_loss(
+        chosen_reward,
+        rejected_reward,
+    )
+
+    # Compute preference accuracy before the optimizer step.
+    accuracy = pairwise_accuracy(
+        chosen_reward,
+        rejected_reward,
+    )
+
+    # Backpropagation and optimizer update.
+    loss.backward()
+    optimizer.step()
+
+    return {
+        "loss": float(loss.item()),
+        "accuracy": float(accuracy),
+    }
 
 # Step 41 - sequence_logprob (not yet solved)
 # TODO: implement

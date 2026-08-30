@@ -49,7 +49,7 @@ python scaffold.py
 - [x] **37.** pairwise_reward_loss
 - [x] **38.** reward_bce_loss
 - [x] **39.** pairwise_accuracy
-- [ ] **40.** reward_train_step
+- [x] **40.** reward_train_step
 - [ ] **41.** sequence_logprob
 - [ ] **42.** per_token_kl
 - [ ] **43.** compute_returns
