@@ -66,7 +66,7 @@ python scaffold.py
 - [x] **54.** dpo_loss
 - [x] **55.** ipo_loss
 - [x] **56.** kto_loss
-- [ ] **57.** orpo_loss
+- [x] **57.** orpo_loss
 - [ ] **58.** simpo_loss
 - [ ] **59.** build_eval_prompt_set
 - [ ] **60.** generate_completions

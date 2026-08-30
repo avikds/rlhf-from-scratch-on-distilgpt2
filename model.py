@@ -872,8 +872,30 @@ def kto_loss(policy_logps, ref_logps, labels, beta=0.1):
     # Logistic KTO-style loss: penalize the wrong direction.
     return torch.sigmoid(-beta * signed_ratio).mean()
 
-# Step 57 - orpo_loss (not yet solved)
-# TODO: implement
+# Step 57 - orpo_loss
+def orpo_loss(
+    policy_chosen_logps,
+    policy_rejected_logps,
+    sft_loss,
+    lambda_or=0.1,
+):
+    # Convert log-probabilities to log-odds:
+    # log(p / (1 - p)) = log(p) - log(1 - p)
+    # Using expm1 keeps the computation stable when log(p) is close to 0.
+    chosen_logps = torch.clamp(policy_chosen_logps, max=-1e-12)
+    rejected_logps = torch.clamp(policy_rejected_logps, max=-1e-12)
+
+    chosen_log_odds = chosen_logps - torch.log(-torch.expm1(chosen_logps))
+    rejected_log_odds = rejected_logps - torch.log(-torch.expm1(rejected_logps))
+
+    # Chosen-vs-rejected log-odds margin.
+    log_odds_diff = chosen_log_odds - rejected_log_odds
+
+    # ORPO odds-ratio preference penalty.
+    preference_loss = -torch.nn.functional.logsigmoid(log_odds_diff).mean()
+
+    # Combine the standard SFT loss with the OR penalty.
+    return sft_loss + lambda_or * preference_loss
 
 # Step 58 - simpo_loss (not yet solved)
 # TODO: implement
