@@ -531,8 +531,12 @@ def format_preference(example):
         "rejected_text": f"{example['prompt']} {example['rejected']}",
     }
 
-# Step 36 - reward_head_forward (not yet solved)
-# TODO: implement
+# Step 36 - reward_head_forward
+def reward_head_forward(hidden_state, weight, bias):
+    """Map a final hidden state to a scalar reward via a linear projection."""
+    weight = weight.reshape(-1)
+
+    return hidden_state @ weight + bias
 
 # Step 37 - pairwise_reward_loss (not yet solved)
 # TODO: implement
