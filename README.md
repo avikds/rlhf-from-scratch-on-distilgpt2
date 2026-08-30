@@ -34,7 +34,7 @@ python scaffold.py
 - [x] **22.** adamw_update
 - [x] **23.** linear_warmup_schedule
 - [x] **24.** clip_grad_norm
-- [ ] **25.** accumulate_gradients
+- [x] **25.** accumulate_gradients
 - [ ] **26.** sft_train_step
 - [ ] **27.** evaluate_loss
 - [ ] **28.** lora_delta
