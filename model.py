@@ -439,8 +439,6 @@ def lora_delta(A, B, alpha, r):
     return (alpha / r) * (B @ A)
 
 # Step 29 - lora_linear_forward
-import torch
-
 def lora_linear_forward(x, base_weight, A, B, alpha, r, bias=None):
     # Build the LoRA weight update using the upstream helper.
     delta = lora_delta(A, B, alpha, r)
