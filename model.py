@@ -14,8 +14,15 @@ def load_distilgpt2_tokenizer(model_name="sshleifer/tiny-gpt2"):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     return tokenizer
 
-# Step 2 - load_distilgpt2_model (not yet solved)
-# TODO: implement
+# Step 2 - load_distilgpt2_model
+def load_distilgpt2_model(model_name="sshleifer/tiny-gpt2"):
+    # Load a causal language model from the Hugging Face Hub.
+    from transformers import AutoModelForCausalLM
+
+    model = AutoModelForCausalLM.from_pretrained(model_name)
+    model.eval()
+    
+    return model
 
 # Step 3 - set_pad_token_to_eos (not yet solved)
 # TODO: implement
