@@ -545,8 +545,18 @@ def pairwise_reward_loss(chosen_reward, rejected_reward):
 
     return (-F.logsigmoid(reward_diff)).mean()
 
-# Step 38 - reward_bce_loss (not yet solved)
-# TODO: implement
+# Step 38 - reward_bce_loss
+import numpy as np
+
+def reward_bce_loss(chosen_reward, rejected_reward):
+    # Stable BCE:
+    # chosen rewards are positive targets (1): softplus(-chosen_reward)
+    # rejected rewards are negative targets (0): softplus(rejected_reward)
+    chosen_loss = np.logaddexp(0.0, -np.asarray(chosen_reward))
+    rejected_loss = np.logaddexp(0.0, np.asarray(rejected_reward))
+
+    # Average across both chosen and rejected rewards.
+    return float(np.mean(np.concatenate([chosen_loss, rejected_loss])))
 
 # Step 39 - pairwise_accuracy (not yet solved)
 # TODO: implement
