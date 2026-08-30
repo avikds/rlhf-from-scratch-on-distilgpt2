@@ -123,8 +123,35 @@ def top_p_filter(logits, p):
 
     return filtered_logits
 
-# Step 9 - build_synthetic_instruction_dataset (not yet solved)
-# TODO: implement
+# Step 9 - build_synthetic_instruction_dataset
+def build_synthetic_instruction_dataset():
+    # Deterministic, small in-memory dataset for supervised fine-tuning.
+    return [
+        {
+            "prompt": "Explain what a variable is in programming.",
+            "response": "A variable is a named storage location used to hold a value that a program can read or change."
+        },
+        {
+            "prompt": "What is the capital of France?",
+            "response": "The capital of France is Paris."
+        },
+        {
+            "prompt": "Give one benefit of regular exercise.",
+            "response": "Regular exercise can improve physical fitness and support overall health."
+        },
+        {
+            "prompt": "What does Python's len function do?",
+            "response": "Python's len function returns the number of items in an object, such as the number of elements in a list or characters in a string."
+        },
+        {
+            "prompt": "Define supervised learning.",
+            "response": "Supervised learning is a machine learning approach where a model learns from examples containing input data paired with the correct target outputs."
+        },
+        {
+            "prompt": "Why is water important for the human body?",
+            "response": "Water is essential for hydration and helps the body regulate temperature, transport nutrients, and remove waste."
+        },
+    ]
 
 # Step 10 - format_example (not yet solved)
 # TODO: implement

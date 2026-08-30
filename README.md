@@ -18,7 +18,7 @@ python scaffold.py
 - [x] **6.** sample_with_temperature
 - [x] **7.** top_k_filter
 - [x] **8.** top_p_filter
-- [ ] **9.** build_synthetic_instruction_dataset
+- [x] **9.** build_synthetic_instruction_dataset
 - [ ] **10.** format_example
 - [ ] **11.** apply_template
 - [ ] **12.** tokenize_example
