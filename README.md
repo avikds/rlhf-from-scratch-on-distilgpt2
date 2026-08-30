@@ -76,6 +76,15 @@ python scaffold.py
 - [x] **64.** apply_stop_tokens
 - [x] **65.** chat
 
----
+## Results
 
-Built on Deep-ML.
+```
+Loaded tiny-gpt2; vocab=50257, pad==eos? True
+Base completion: 'Hello, how are you? stairs stairs stairs stairs stairs stairs stairs stairs'
+SFT train losses: [10.824, 10.83, 10.825, 10.821, 10.825, 10.823]... val_loss=10.822
+Reward head trained; final RM loss ~ 0.693
+Aligned beats base on 0/3 prompts (reward-model judged)
+Chat reply: 'factors factors factors factors factors factors factors factors'
+```
+
+```
