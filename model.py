@@ -280,8 +280,18 @@ def shift_logits_and_labels(logits, labels):
 
     return shift_logits, shift_labels
 
-# Step 21 - cross_entropy_loss (not yet solved)
-# TODO: implement
+# Step 21 - cross_entropy_loss
+import torch.nn.functional as F
+
+def cross_entropy_loss(shift_logits, shift_labels):
+    """Mean next-token cross-entropy, ignoring label positions equal to -100."""
+    # Flatten the batch and sequence dimensions so each token prediction
+    # becomes one row of logits and one target label.
+    logits = shift_logits.reshape(-1, shift_logits.size(-1))
+    labels = shift_labels.reshape(-1)
+
+    # Ignore masked positions (-100) while computing the mean loss.
+    return F.cross_entropy(logits, labels, ignore_index=-100)
 
 # Step 22 - adamw_update (not yet solved)
 # TODO: implement

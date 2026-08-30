@@ -30,7 +30,7 @@ python scaffold.py
 - [x] **18.** iterate_minibatches
 - [x] **19.** train_val_split
 - [x] **20.** shift_logits_and_labels
-- [ ] **21.** cross_entropy_loss
+- [x] **21.** cross_entropy_loss
 - [ ] **22.** adamw_update
 - [ ] **23.** linear_warmup_schedule
 - [ ] **24.** clip_grad_norm
