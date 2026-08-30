@@ -349,8 +349,23 @@ def linear_warmup_schedule(step, warmup_steps):
     # After warmup, keep the multiplier at 1.
     return 1.0
 
-# Step 24 - clip_grad_norm (not yet solved)
-# TODO: implement
+# Step 24 - clip_grad_norm
+def clip_grad_norm(grads, max_norm):
+    # Compute the global L2 norm across all gradient tensors.
+    total_norm_sq = sum(torch.sum(grad.detach() ** 2) for grad in grads)
+    total_norm = torch.sqrt(total_norm_sq)
+
+    # Convert the original norm to a Python float for logging.
+    total_norm_value = float(total_norm.item())
+
+    # Clip gradients in place if the global norm exceeds max_norm.
+    if total_norm_value > max_norm:
+        scale = max_norm / (total_norm_value + 1e-12)
+
+        for grad in grads:
+            grad.mul_(scale)
+
+    return total_norm_value
 
 # Step 25 - accumulate_gradients (not yet solved)
 # TODO: implement
