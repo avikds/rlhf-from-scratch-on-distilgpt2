@@ -955,27 +955,35 @@ def generate_completions(model, tokenizer, prompts, max_new_tokens=16):
     ]
 
 # Step 61 - score_with_reward
+# Step 61 - score_with_reward
 def score_with_reward(reward_model, tokenizer, prompt, completion):
     """Return a scalar reward float for the prompt+completion pair."""
     text = prompt + completion
 
-    # Tokenize the complete prompt + completion.
+    # Tokenize the full prompt + completion.
     inputs = tokenizer(text, return_tensors="pt")
 
-    # Run the reward-model backbone without tracking gradients.
     with torch.no_grad():
-        outputs = reward_model["model"](
-            input_ids=inputs["input_ids"],
-            attention_mask=inputs.get("attention_mask"),
-        )
+        # Pass only input_ids. This avoids compatibility problems with
+        # custom/test backbones that do not expect an attention-mask tensor.
+        outputs = reward_model["model"](inputs["input_ids"])
 
-        # Support Hugging Face-style model outputs.
-        if hasattr(outputs, "last_hidden_state"):
-            hidden_states = outputs.last_hidden_state
-        else:
+        # Support either a raw hidden-state tensor or a Hugging Face-style
+        # output object containing last_hidden_state.
+        if torch.is_tensor(outputs):
             hidden_states = outputs
+        elif hasattr(outputs, "last_hidden_state"):
+            hidden_states = outputs.last_hidden_state
+        elif isinstance(outputs, (tuple, list)):
+            hidden_states = outputs[0]
+        elif isinstance(outputs, dict):
+            hidden_states = outputs["last_hidden_state"]
+        else:
+            raise TypeError(
+                f"Unsupported reward backbone output type: {type(outputs).__name__}"
+            )
 
-        # Use the final hidden state from the last sequence position.
+        # Use the hidden state at the final sequence position.
         last_hidden = hidden_states[:, -1, :]
 
         # Apply the scalar reward head.
