@@ -558,8 +558,11 @@ def reward_bce_loss(chosen_reward, rejected_reward):
     # Average across both chosen and rejected rewards.
     return float(np.mean(np.concatenate([chosen_loss, rejected_loss])))
 
-# Step 39 - pairwise_accuracy (not yet solved)
-# TODO: implement
+# Step 39 - pairwise_accuracy
+def pairwise_accuracy(chosen_reward, rejected_reward):
+    """Fraction of pairs where chosen_reward > rejected_reward."""
+    correct = (chosen_reward > rejected_reward).float()
+    return float(correct.mean().item())
 
 # Step 40 - reward_train_step (not yet solved)
 # TODO: implement
