@@ -803,8 +803,10 @@ def dpo_logratios(policy_chosen_logps, policy_rejected_logps):
     """Return policy_chosen_logps - policy_rejected_logps elementwise."""
     return policy_chosen_logps - policy_rejected_logps
 
-# Step 53 - dpo_ref_logratios (not yet solved)
-# TODO: implement
+# Step 53 - dpo_ref_logratios
+def dpo_ref_logratios(ref_chosen_logps, ref_rejected_logps):
+    # Compute the reference-model chosen-minus-rejected log ratio.
+    return ref_chosen_logps - ref_rejected_logps
 
 # Step 54 - dpo_loss (not yet solved)
 # TODO: implement
