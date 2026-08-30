@@ -24,8 +24,13 @@ def load_distilgpt2_model(model_name="sshleifer/tiny-gpt2"):
     
     return model
 
-# Step 3 - set_pad_token_to_eos (not yet solved)
-# TODO: implement
+# Step 3 - set_pad_token_to_eos
+def set_pad_token_to_eos(tokenizer):
+    # GPT-2 does not define a pad token by default.
+    # Use the EOS token for padding.
+    tokenizer.pad_token = tokenizer.eos_token
+
+    return tokenizer
 
 # Step 4 - generate_and_decode (not yet solved)
 # TODO: implement
