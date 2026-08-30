@@ -808,8 +808,30 @@ def dpo_ref_logratios(ref_chosen_logps, ref_rejected_logps):
     # Compute the reference-model chosen-minus-rejected log ratio.
     return ref_chosen_logps - ref_rejected_logps
 
-# Step 54 - dpo_loss (not yet solved)
-# TODO: implement
+# Step 54 - dpo_loss
+def dpo_loss(
+    policy_chosen_logps,
+    policy_rejected_logps,
+    ref_chosen_logps,
+    ref_rejected_logps,
+    beta=0.1,
+):
+    """Return the DPO loss as a scalar torch tensor."""
+    # Compute chosen-vs-rejected log-ratios for policy and reference.
+    policy_logratios = dpo_logratios(
+        policy_chosen_logps,
+        policy_rejected_logps,
+    )
+    ref_logratios = dpo_ref_logratios(
+        ref_chosen_logps,
+        ref_rejected_logps,
+    )
+
+    # DPO preference margin relative to the reference model.
+    logits = beta * (policy_logratios - ref_logratios)
+
+    # Negative mean log-sigmoid is the loss to minimize.
+    return -F.logsigmoid(logits).mean()
 
 # Step 55 - ipo_loss (not yet solved)
 # TODO: implement
