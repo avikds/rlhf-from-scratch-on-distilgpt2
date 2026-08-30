@@ -65,7 +65,7 @@ python scaffold.py
 - [x] **53.** dpo_ref_logratios
 - [x] **54.** dpo_loss
 - [x] **55.** ipo_loss
-- [ ] **56.** kto_loss
+- [x] **56.** kto_loss
 - [ ] **57.** orpo_loss
 - [ ] **58.** simpo_loss
 - [ ] **59.** build_eval_prompt_set

@@ -860,8 +860,17 @@ def ipo_loss(
     # Mean squared deviation from the target margin.
     return ((logratio_gap - target) ** 2).mean()
 
-# Step 56 - kto_loss (not yet solved)
-# TODO: implement
+# Step 56 - kto_loss
+def kto_loss(policy_logps, ref_logps, labels, beta=0.1):
+    # Relative log-probability under the policy vs. the reference model.
+    log_ratio = policy_logps - ref_logps
+
+    # Desirable examples (label=1) should have positive log-ratios;
+    # undesirable examples (label=0) should have negative log-ratios.
+    signed_ratio = (2.0 * labels - 1.0) * log_ratio
+
+    # Logistic KTO-style loss: penalize the wrong direction.
+    return torch.sigmoid(-beta * signed_ratio).mean()
 
 # Step 57 - orpo_loss (not yet solved)
 # TODO: implement
