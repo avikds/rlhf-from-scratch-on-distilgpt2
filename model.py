@@ -931,8 +931,18 @@ def build_eval_prompt_set():
         "Suggest a simple healthy breakfast.",
     ]
 
-# Step 60 - generate_completions (not yet solved)
-# TODO: implement
+# Step 60 - generate_completions
+def generate_completions(model, tokenizer, prompts, max_new_tokens=16):
+    """Return a list of greedy completions, one per prompt."""
+    return [
+        generate_and_decode(
+            model,
+            tokenizer,
+            prompt,
+            max_new_tokens=max_new_tokens,
+        )
+        for prompt in prompts
+    ]
 
 # Step 61 - score_with_reward (not yet solved)
 # TODO: implement
