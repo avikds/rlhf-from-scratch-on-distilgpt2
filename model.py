@@ -1064,6 +1064,47 @@ def apply_stop_tokens(text, stop_tokens, eos_token):
 
     return text[:min(positions)]
 
-# Step 65 - chat (not yet solved)
-# TODO: implement
+# Step 65 - chat
+def chat(model, tokenizer, user_message, system_prompt=None,
+         max_new_tokens=32, stop_tokens=None):
+
+    tokenizer = set_pad_token_to_eos(tokenizer)
+
+    # Required edge case: don't call the generator with 0 tokens.
+    if max_new_tokens <= 0:
+        return ""
+
+    if system_prompt is not None:
+        prompt = (
+            f"System: {system_prompt}\n"
+            f"User: {user_message}\n"
+            "Assistant:"
+        )
+    else:
+        prompt = (
+            f"User: {user_message}\n"
+            "Assistant:"
+        )
+
+    generated = generate_and_decode(
+        model,
+        tokenizer,
+        prompt,
+        max_new_tokens=max_new_tokens,
+    )
+
+    # If the helper returns prompt + generated text, keep only the continuation.
+    if generated.startswith(prompt):
+        generated = generated[len(prompt):]
+
+    if stop_tokens is None:
+        stop_tokens = []
+
+    reply = apply_stop_tokens(
+        generated,
+        stop_tokens,
+        tokenizer.eos_token,
+    )
+
+    return reply.strip()
 
