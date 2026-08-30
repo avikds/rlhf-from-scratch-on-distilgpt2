@@ -777,8 +777,26 @@ def kl_penalized_reward(reward, kl, beta=0.1):
     """Return reward shaped by a KL penalty against a reference policy."""
     return reward - beta * kl
 
-# Step 51 - batch_sequence_logprob (not yet solved)
-# TODO: implement
+# Step 51 - batch_sequence_logprob
+def batch_sequence_logprob(logits, token_ids, attention_mask=None):
+    # Convert logits to log-probabilities over the vocabulary.
+    log_probs = F.log_softmax(logits, dim=-1)
+
+    # Gather the log-probability assigned to each realized token.
+    token_logprobs = torch.gather(
+        log_probs,
+        dim=-1,
+        index=token_ids.unsqueeze(-1),
+    ).squeeze(-1)
+
+    # Zero out padded positions when an attention mask is provided.
+    if attention_mask is not None:
+        token_logprobs = token_logprobs * attention_mask.to(
+            dtype=token_logprobs.dtype
+        )
+
+    # Sum token log-probabilities independently for each sequence.
+    return token_logprobs.sum(dim=-1)
 
 # Step 52 - dpo_logratios (not yet solved)
 # TODO: implement
