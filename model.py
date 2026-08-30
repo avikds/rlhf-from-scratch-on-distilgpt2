@@ -955,7 +955,6 @@ def generate_completions(model, tokenizer, prompts, max_new_tokens=16):
     ]
 
 # Step 61 - score_with_reward
-# Step 61 - score_with_reward
 def score_with_reward(reward_model, tokenizer, prompt, completion):
     """Return a scalar reward float for the prompt+completion pair."""
     text = prompt + completion
