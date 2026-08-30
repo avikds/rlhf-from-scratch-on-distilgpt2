@@ -730,8 +730,47 @@ def entropy_bonus(logits):
     # Average over all leading dimensions.
     return entropy.mean()
 
-# Step 49 - ppo_loss (not yet solved)
-# TODO: implement
+# Step 49 - ppo_loss
+def ppo_loss(
+    ratio,
+    advantages,
+    values,
+    returns,
+    logits,
+    clip_eps=0.2,
+    vf_coef=0.5,
+    ent_coef=0.01,
+):
+    """Combine PPO policy, value, and entropy terms into a loss dict."""
+    # Policy loss: negative clipped surrogate objective.
+    policy_loss = clipped_surrogate(
+        ratio,
+        advantages,
+        clip_eps=clip_eps,
+    )
+
+    # Value-function regression loss.
+    value_loss = value_function_loss(
+        values,
+        returns,
+    )
+
+    # Mean policy entropy.
+    entropy = entropy_bonus(logits)
+
+    # Minimize policy loss + weighted value loss - weighted entropy bonus.
+    loss = (
+        policy_loss
+        + vf_coef * value_loss
+        - ent_coef * entropy
+    )
+
+    return {
+        "loss": loss,
+        "policy_loss": policy_loss,
+        "value_loss": value_loss,
+        "entropy": entropy,
+    }
 
 # Step 50 - kl_penalized_reward (not yet solved)
 # TODO: implement
