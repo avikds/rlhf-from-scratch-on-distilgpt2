@@ -833,8 +833,32 @@ def dpo_loss(
     # Negative mean log-sigmoid is the loss to minimize.
     return -F.logsigmoid(logits).mean()
 
-# Step 55 - ipo_loss (not yet solved)
-# TODO: implement
+# Step 55 - ipo_loss
+def ipo_loss(
+    policy_chosen_logps,
+    policy_rejected_logps,
+    ref_chosen_logps,
+    ref_rejected_logps,
+    beta=0.1,
+):
+    # Compute policy and reference chosen-vs-rejected log-ratios.
+    policy_logratios = dpo_logratios(
+        policy_chosen_logps,
+        policy_rejected_logps,
+    )
+    ref_logratios = dpo_ref_logratios(
+        ref_chosen_logps,
+        ref_rejected_logps,
+    )
+
+    # Difference between policy and reference preference margins.
+    logratio_gap = policy_logratios - ref_logratios
+
+    # IPO target margin.
+    target = 1.0 / (2.0 * beta)
+
+    # Mean squared deviation from the target margin.
+    return ((logratio_gap - target) ** 2).mean()
 
 # Step 56 - kto_loss (not yet solved)
 # TODO: implement
