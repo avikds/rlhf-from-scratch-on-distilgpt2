@@ -52,8 +52,12 @@ def generate_and_decode(model, tokenizer, prompt, max_new_tokens=8):
     # Decode the generated sequence into a single string.
     return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-# Step 5 - greedy_decode (not yet solved)
-# TODO: implement
+# Step 5 - greedy_decode
+import torch
+
+def greedy_decode(logits):
+    """Return the argmax token id from a single-row logits vector."""
+    return int(torch.argmax(logits).item())
 
 # Step 6 - sample_with_temperature (not yet solved)
 # TODO: implement
