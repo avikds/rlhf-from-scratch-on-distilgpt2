@@ -28,7 +28,7 @@ python scaffold.py
 - [x] **16.** make_attention_mask
 - [x] **17.** collate_lm_batch
 - [x] **18.** iterate_minibatches
-- [ ] **19.** train_val_split
+- [x] **19.** train_val_split
 - [ ] **20.** shift_logits_and_labels
 - [ ] **21.** cross_entropy_loss
 - [ ] **22.** adamw_update

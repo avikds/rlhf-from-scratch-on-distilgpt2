@@ -253,8 +253,23 @@ def iterate_minibatches(examples, batch_size, seed=0):
     for start in range(0, len(shuffled), batch_size):
         yield shuffled[start:start + batch_size]
 
-# Step 19 - train_val_split (not yet solved)
-# TODO: implement
+# Step 19 - train_val_split
+def train_val_split(examples, val_ratio=0.2, seed=0):
+    # Make a copy so the original input list is not mutated.
+    shuffled = list(examples)
+
+    # Shuffle deterministically using the provided seed.
+    rng = random.Random(seed)
+    rng.shuffle(shuffled)
+
+    # Validation size is floor(len(examples) * val_ratio).
+    val_size = int(len(shuffled) * val_ratio)
+
+    # Carve off the validation portion; the remainder is training data.
+    val = shuffled[:val_size]
+    train = shuffled[val_size:]
+
+    return train, val
 
 # Step 20 - shift_logits_and_labels (not yet solved)
 # TODO: implement
