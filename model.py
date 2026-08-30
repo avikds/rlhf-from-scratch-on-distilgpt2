@@ -772,8 +772,10 @@ def ppo_loss(
         "entropy": entropy,
     }
 
-# Step 50 - kl_penalized_reward (not yet solved)
-# TODO: implement
+# Step 50 - kl_penalized_reward
+def kl_penalized_reward(reward, kl, beta=0.1):
+    """Return reward shaped by a KL penalty against a reference policy."""
+    return reward - beta * kl
 
 # Step 51 - batch_sequence_logprob (not yet solved)
 # TODO: implement
