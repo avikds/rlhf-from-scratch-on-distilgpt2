@@ -897,8 +897,27 @@ def orpo_loss(
     # Combine the standard SFT loss with the OR penalty.
     return sft_loss + lambda_or * preference_loss
 
-# Step 58 - simpo_loss (not yet solved)
-# TODO: implement
+# Step 58 - simpo_loss
+def simpo_loss(
+    policy_chosen_logps,
+    policy_rejected_logps,
+    chosen_lengths,
+    rejected_lengths,
+    beta=2.0,
+    gamma=1.0,
+):
+    """Return the mean SimPO loss as a scalar tensor."""
+    # Length-normalized sequence log-probabilities.
+    chosen_rewards = policy_chosen_logps / chosen_lengths
+    rejected_rewards = policy_rejected_logps / rejected_lengths
+
+    # Chosen-vs-rejected implicit reward gap.
+    reward_gap = chosen_rewards - rejected_rewards
+
+    # SimPO margin objective.
+    logits = beta * reward_gap - gamma
+
+    return -F.logsigmoid(logits).mean()
 
 # Step 59 - build_eval_prompt_set (not yet solved)
 # TODO: implement
