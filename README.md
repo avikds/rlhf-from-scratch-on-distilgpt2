@@ -16,7 +16,7 @@ python scaffold.py
 - [x] **4.** generate_and_decode
 - [x] **5.** greedy_decode
 - [x] **6.** sample_with_temperature
-- [ ] **7.** top_k_filter
+- [x] **7.** top_k_filter
 - [ ] **8.** top_p_filter
 - [ ] **9.** build_synthetic_instruction_dataset
 - [ ] **10.** format_example

@@ -72,8 +72,22 @@ def sample_with_temperature(logits, temperature):
 
     return int(token_id.item())
 
-# Step 7 - top_k_filter (not yet solved)
-# TODO: implement
+# Step 7 - top_k_filter
+def top_k_filter(logits, k):
+    # If k covers the whole vocabulary, return a copy unchanged.
+    if k >= logits.numel():
+        return logits.clone()
+
+    # Find the indices of the k largest logits.
+    _, top_k_indices = torch.topk(logits, k)
+
+    # Create a new tensor filled with -inf.
+    filtered_logits = torch.full_like(logits, float("-inf"))
+
+    # Preserve only the top-k logits.
+    filtered_logits[top_k_indices] = logits[top_k_indices]
+
+    return filtered_logits
 
 # Step 8 - top_p_filter (not yet solved)
 # TODO: implement
