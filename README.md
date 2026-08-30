@@ -73,7 +73,7 @@ python scaffold.py
 - [x] **61.** score_with_reward
 - [x] **62.** win_rate
 - [x] **63.** stream_tokens
-- [ ] **64.** apply_stop_tokens
+- [x] **64.** apply_stop_tokens
 - [ ] **65.** chat
 
 ---

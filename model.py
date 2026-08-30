@@ -1049,8 +1049,20 @@ def stream_tokens(model, tokenizer, prompt, max_new_tokens):
 
         yield piece
 
-# Step 64 - apply_stop_tokens (not yet solved)
-# TODO: implement
+# Step 64 - apply_stop_tokens
+def apply_stop_tokens(text, stop_tokens, eos_token):
+    markers = list(stop_tokens)
+
+    if eos_token is not None:
+        markers.append(eos_token)
+
+    positions = [text.find(marker) for marker in markers if marker]
+    positions = [pos for pos in positions if pos != -1]
+
+    if not positions:
+        return text
+
+    return text[:min(positions)]
 
 # Step 65 - chat (not yet solved)
 # TODO: implement
