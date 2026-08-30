@@ -523,8 +523,13 @@ def build_synthetic_preference_dataset(num_examples=8, seed=0):
         for i in range(num_examples)
     ]
 
-# Step 35 - format_preference (not yet solved)
-# TODO: implement
+# Step 35 - format_preference
+def format_preference(example):
+    # Combine the prompt with each response using a single space.
+    return {
+        "chosen_text": f"{example['prompt']} {example['chosen']}",
+        "rejected_text": f"{example['prompt']} {example['rejected']}",
+    }
 
 # Step 36 - reward_head_forward (not yet solved)
 # TODO: implement
