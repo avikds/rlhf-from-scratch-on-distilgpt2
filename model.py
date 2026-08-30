@@ -494,8 +494,6 @@ def merge_lora(base_weight, lora_a, lora_b, scaling):
     return base_weight + scaling * (lora_b @ lora_a)
 
 # Step 34 - build_synthetic_preference_dataset
-import random
-
 def build_synthetic_preference_dataset(num_examples=8, seed=0):
     """Return a deterministic synthetic preference dataset."""
     if num_examples <= 0:
