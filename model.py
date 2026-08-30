@@ -1014,8 +1014,40 @@ def win_rate(reward_model, tokenizer, prompts, completions_a, completions_b):
 
     return wins / len(prompts)
 
-# Step 63 - stream_tokens (not yet solved)
-# TODO: implement
+# Step 63 - stream_tokens
+def stream_tokens(model, tokenizer, prompt, max_new_tokens):
+    # Ensure GPT-2-family tokenizers have a padding token configured.
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    # Tokenize the prompt.
+    inputs = tokenizer(prompt, return_tensors="pt")
+
+    # Keep track of the sequence generated so far.
+    generated = inputs["input_ids"]
+
+    for _ in range(max_new_tokens):
+        # Greedy next-token prediction.
+        with torch.no_grad():
+            outputs = model(
+                input_ids=generated,
+                attention_mask=torch.ones_like(generated),
+            )
+            next_token = torch.argmax(outputs.logits[:, -1, :], dim=-1)
+
+        # Append the new token to the generated sequence.
+        generated = torch.cat(
+            [generated, next_token.unsqueeze(-1)],
+            dim=-1,
+        )
+
+        # Decode only the newly generated token.
+        piece = tokenizer.decode(
+            next_token.tolist(),
+            skip_special_tokens=True,
+        )
+
+        yield piece
 
 # Step 64 - apply_stop_tokens (not yet solved)
 # TODO: implement
