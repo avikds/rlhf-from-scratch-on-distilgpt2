@@ -181,8 +181,10 @@ def tokenize_example(tokenizer, text, max_length=64):
 
     return list(token_ids)
 
-# Step 13 - build_labels (not yet solved)
-# TODO: implement
+# Step 13 - build_labels
+def build_labels(input_ids):
+    # Return an independent copy of input_ids for causal LM labels.
+    return list(input_ids)
 
 # Step 14 - mask_prompt_labels (not yet solved)
 # TODO: implement
