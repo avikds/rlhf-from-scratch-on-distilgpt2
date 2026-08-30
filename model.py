@@ -798,8 +798,10 @@ def batch_sequence_logprob(logits, token_ids, attention_mask=None):
     # Sum token log-probabilities independently for each sequence.
     return token_logprobs.sum(dim=-1)
 
-# Step 52 - dpo_logratios (not yet solved)
-# TODO: implement
+# Step 52 - dpo_logratios
+def dpo_logratios(policy_chosen_logps, policy_rejected_logps):
+    """Return policy_chosen_logps - policy_rejected_logps elementwise."""
+    return policy_chosen_logps - policy_rejected_logps
 
 # Step 53 - dpo_ref_logratios (not yet solved)
 # TODO: implement
