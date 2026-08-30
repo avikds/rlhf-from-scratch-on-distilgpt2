@@ -20,7 +20,7 @@ python scaffold.py
 - [x] **8.** top_p_filter
 - [x] **9.** build_synthetic_instruction_dataset
 - [x] **10.** format_example
-- [ ] **11.** apply_template
+- [x] **11.** apply_template
 - [ ] **12.** tokenize_example
 - [ ] **13.** build_labels
 - [ ] **14.** mask_prompt_labels

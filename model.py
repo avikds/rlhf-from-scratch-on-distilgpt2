@@ -163,8 +163,11 @@ def format_example(example):
         f"{example['response']}"
     )
 
-# Step 11 - apply_template (not yet solved)
-# TODO: implement
+# Step 11 - apply_template
+def apply_template(examples):
+    # Apply the existing formatting helper to each example
+    # while preserving the input order.
+    return [format_example(example) for example in examples]
 
 # Step 12 - tokenize_example (not yet solved)
 # TODO: implement
