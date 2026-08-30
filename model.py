@@ -479,8 +479,14 @@ def freeze_base_params(model):
 
     return model
 
-# Step 32 - count_trainable_params (not yet solved)
-# TODO: implement
+# Step 32 - count_trainable_params
+def count_trainable_params(model):
+    # Sum the number of elements in all trainable parameters.
+    return sum(
+        param.numel()
+        for param in model.parameters()
+        if param.requires_grad
+    )
 
 # Step 33 - merge_lora (not yet solved)
 # TODO: implement
