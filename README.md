@@ -52,7 +52,7 @@ python scaffold.py
 - [x] **40.** reward_train_step
 - [x] **41.** sequence_logprob
 - [x] **42.** per_token_kl
-- [ ] **43.** compute_returns
+- [x] **43.** compute_returns
 - [ ] **44.** gae_advantages
 - [ ] **45.** policy_ratio
 - [ ] **46.** clipped_surrogate

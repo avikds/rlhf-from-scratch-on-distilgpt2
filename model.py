@@ -658,8 +658,21 @@ def per_token_kl(policy_logprobs, ref_logprobs):
     # between the current policy and reference model.
     return np.asarray(policy_logprobs) - np.asarray(ref_logprobs)
 
-# Step 43 - compute_returns (not yet solved)
-# TODO: implement
+# Step 43 - compute_returns
+def compute_returns(rewards, gamma=0.99):
+    """Return the discounted return at each timestep as a 1D numpy array."""
+    rewards = np.asarray(rewards, dtype=float)
+
+    returns = np.zeros_like(rewards, dtype=float)
+    running_return = 0.0
+
+    # Compute returns backward:
+    # G_t = r_t + gamma * G_{t+1}
+    for t in range(len(rewards) - 1, -1, -1):
+        running_return = rewards[t] + gamma * running_return
+        returns[t] = running_return
+
+    return returns
 
 # Step 44 - gae_advantages (not yet solved)
 # TODO: implement
