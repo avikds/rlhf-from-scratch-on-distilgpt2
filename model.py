@@ -336,8 +336,18 @@ def adamw_update(
 
     return state
 
-# Step 23 - linear_warmup_schedule (not yet solved)
-# TODO: implement
+# Step 23 - linear_warmup_schedule
+def linear_warmup_schedule(step, warmup_steps):
+    # No warmup: immediately use the full learning rate.
+    if warmup_steps <= 0:
+        return 1.0
+
+    # Linearly increase from 0 to 1 during warmup.
+    if step < warmup_steps:
+        return step / warmup_steps
+
+    # After warmup, keep the multiplier at 1.
+    return 1.0
 
 # Step 24 - clip_grad_norm (not yet solved)
 # TODO: implement

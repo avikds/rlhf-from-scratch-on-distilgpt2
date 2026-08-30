@@ -32,7 +32,7 @@ python scaffold.py
 - [x] **20.** shift_logits_and_labels
 - [x] **21.** cross_entropy_loss
 - [x] **22.** adamw_update
-- [ ] **23.** linear_warmup_schedule
+- [x] **23.** linear_warmup_schedule
 - [ ] **24.** clip_grad_norm
 - [ ] **25.** accumulate_gradients
 - [ ] **26.** sft_train_step
