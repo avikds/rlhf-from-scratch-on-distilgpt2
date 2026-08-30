@@ -13,7 +13,7 @@ python scaffold.py
 - [x] **1.** load_distilgpt2_tokenizer
 - [x] **2.** load_distilgpt2_model
 - [x] **3.** set_pad_token_to_eos
-- [ ] **4.** generate_and_decode
+- [x] **4.** generate_and_decode
 - [ ] **5.** greedy_decode
 - [ ] **6.** sample_with_temperature
 - [ ] **7.** top_k_filter

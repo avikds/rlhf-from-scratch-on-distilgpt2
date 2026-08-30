@@ -32,8 +32,25 @@ def set_pad_token_to_eos(tokenizer):
 
     return tokenizer
 
-# Step 4 - generate_and_decode (not yet solved)
-# TODO: implement
+# Step 4 - generate_and_decode
+def generate_and_decode(model, tokenizer, prompt, max_new_tokens=8):
+    # GPT-2-family tokenizers do not define a pad token by default.
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    # Tokenize the prompt.
+    inputs = tokenizer(prompt, return_tensors="pt")
+
+    # Generate deterministically using greedy decoding.
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=max_new_tokens,
+        do_sample=False,
+        pad_token_id=tokenizer.pad_token_id,
+    )
+
+    # Decode the generated sequence into a single string.
+    return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 # Step 5 - greedy_decode (not yet solved)
 # TODO: implement
