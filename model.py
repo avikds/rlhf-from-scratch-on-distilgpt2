@@ -712,8 +712,10 @@ def clipped_surrogate(ratio, advantages, clip_eps=0.2):
     # because we minimize losses during optimization.
     return -torch.min(unclipped, clipped).mean()
 
-# Step 47 - value_function_loss (not yet solved)
-# TODO: implement
+# Step 47 - value_function_loss
+def value_function_loss(values, returns):
+    """Mean squared error between predicted values and target returns."""
+    return torch.mean((values - returns) ** 2)
 
 # Step 48 - entropy_bonus (not yet solved)
 # TODO: implement
