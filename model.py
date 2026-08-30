@@ -59,8 +59,18 @@ def greedy_decode(logits):
     """Return the argmax token id from a single-row logits vector."""
     return int(torch.argmax(logits).item())
 
-# Step 6 - sample_with_temperature (not yet solved)
-# TODO: implement
+# Step 6 - sample_with_temperature
+def sample_with_temperature(logits, temperature):
+    # Rescale logits by temperature.
+    scaled_logits = logits / temperature
+
+    # Convert logits to a probability distribution.
+    probabilities = torch.softmax(scaled_logits, dim=-1)
+
+    # Sample one token index from the distribution.
+    token_id = torch.multinomial(probabilities, num_samples=1)
+
+    return int(token_id.item())
 
 # Step 7 - top_k_filter (not yet solved)
 # TODO: implement
