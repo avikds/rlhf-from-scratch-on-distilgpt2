@@ -53,7 +53,7 @@ python scaffold.py
 - [x] **41.** sequence_logprob
 - [x] **42.** per_token_kl
 - [x] **43.** compute_returns
-- [ ] **44.** gae_advantages
+- [x] **44.** gae_advantages
 - [ ] **45.** policy_ratio
 - [ ] **46.** clipped_surrogate
 - [ ] **47.** value_function_loss

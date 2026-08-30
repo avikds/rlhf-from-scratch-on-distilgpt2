@@ -674,8 +674,20 @@ def compute_returns(rewards, gamma=0.99):
 
     return returns
 
-# Step 44 - gae_advantages (not yet solved)
-# TODO: implement
+# Step 44 - gae_advantages
+def gae_advantages(rewards, values, gamma=0.99, lam=0.95):
+    """Compute GAE advantages from rewards (T,) and values (T+1,)."""
+    T = rewards.shape[0]
+    advantages = torch.zeros_like(rewards)
+
+    gae = torch.tensor(0.0, dtype=rewards.dtype, device=rewards.device)
+
+    for t in range(T - 1, -1, -1):
+        delta = rewards[t] + gamma * values[t + 1] - values[t]
+        gae = delta + gamma * lam * gae
+        advantages[t] = gae
+
+    return advantages
 
 # Step 45 - policy_ratio (not yet solved)
 # TODO: implement
