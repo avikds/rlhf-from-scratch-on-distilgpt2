@@ -694,8 +694,23 @@ def policy_ratio(new_logprobs, old_logprobs):
     """Return the PPO importance ratio exp(new - old) elementwise."""
     return torch.exp(new_logprobs - old_logprobs)
 
-# Step 46 - clipped_surrogate (not yet solved)
-# TODO: implement
+# Step 46 - clipped_surrogate
+def clipped_surrogate(ratio, advantages, clip_eps=0.2):
+    """PPO clipped surrogate loss (scalar tensor to minimize)."""
+    # Unclipped PPO objective.
+    unclipped = ratio * advantages
+
+    # Clip the importance ratio to [1 - eps, 1 + eps].
+    clipped_ratio = torch.clamp(
+        ratio,
+        1.0 - clip_eps,
+        1.0 + clip_eps,
+    )
+    clipped = clipped_ratio * advantages
+
+    # PPO uses the pessimistic (minimum) objective, then negates it
+    # because we minimize losses during optimization.
+    return -torch.min(unclipped, clipped).mean()
 
 # Step 47 - value_function_loss (not yet solved)
 # TODO: implement
