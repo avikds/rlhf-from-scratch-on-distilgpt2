@@ -197,8 +197,16 @@ def mask_prompt_labels(labels, prompt_length):
 
     return masked_labels
 
-# Step 15 - pad_batch (not yet solved)
-# TODO: implement
+# Step 15 - pad_batch
+def pad_batch(sequences, pad_id):
+    # Find the length of the longest sequence.
+    max_length = max(len(sequence) for sequence in sequences)
+
+    # Right-pad each sequence to max_length without mutating the input.
+    return [
+        list(sequence) + [pad_id] * (max_length - len(sequence))
+        for sequence in sequences
+    ]
 
 # Step 16 - make_attention_mask (not yet solved)
 # TODO: implement
