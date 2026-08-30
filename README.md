@@ -39,7 +39,7 @@ python scaffold.py
 - [x] **27.** evaluate_loss
 - [x] **28.** lora_delta
 - [x] **29.** lora_linear_forward
-- [ ] **30.** init_lora_weights
+- [x] **30.** init_lora_weights
 - [ ] **31.** freeze_base_params
 - [ ] **32.** count_trainable_params
 - [ ] **33.** merge_lora
