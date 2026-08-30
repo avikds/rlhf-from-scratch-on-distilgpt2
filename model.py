@@ -955,32 +955,54 @@ def generate_completions(model, tokenizer, prompts, max_new_tokens=16):
     ]
 
 # Step 61 - score_with_reward
+# Step 61 - score_with_reward
 def score_with_reward(reward_model, tokenizer, prompt, completion):
     """Return a scalar reward float for the prompt+completion pair."""
     text = prompt + completion
 
-    # Tokenize the full prompt + completion.
     inputs = tokenizer(text, return_tensors="pt")
 
     with torch.no_grad():
-        # The reward backbone is called with the token IDs.
-        outputs = reward_model["model"](inputs["input_ids"])
+        model = reward_model["model"]
 
-        # Extract the hidden-state tensor.
-        if torch.is_tensor(outputs):
+        # Ask the Hugging Face model to expose its hidden states.
+        outputs = model(
+            input_ids=inputs["input_ids"],
+            output_hidden_states=True,
+            return_dict=True,
+        )
+
+        # Prefer the final hidden-state tensor.
+        if hasattr(outputs, "hidden_states") and outputs.hidden_states is not None:
+            hidden_states = outputs.hidden_states[-1]
+
+        elif hasattr(outputs, "last_hidden_state"):
+            hidden_states = outputs.last_hidden_state
+
+        elif torch.is_tensor(outputs):
             hidden_states = outputs
-        else:
-            # Hugging Face ModelOutput objects are tuple-like, and their
-            # first item is the main hidden-state tensor for the backbone.
-            hidden_states = outputs[0]
 
-        # Take the final-position hidden state.
+        else:
+            raise TypeError(
+                f"Unable to extract hidden states from "
+                f"{type(outputs).__name__}"
+            )
+
+        # Final token hidden state: shape (1, hidden_size).
         last_hidden = hidden_states[:, -1, :]
 
-        # Project to a scalar reward.
+        # Sanity-check that the hidden dimension matches the reward head.
+        weight = reward_model["weight"].reshape(-1)
+
+        if last_hidden.size(-1) != weight.numel():
+            raise RuntimeError(
+                f"Reward hidden size {last_hidden.size(-1)} does not match "
+                f"reward-head size {weight.numel()}."
+            )
+
         reward = reward_head_forward(
             last_hidden,
-            reward_model["weight"],
+            weight,
             reward_model["bias"],
         )
 
