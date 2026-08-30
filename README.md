@@ -57,7 +57,7 @@ python scaffold.py
 - [x] **45.** policy_ratio
 - [x] **46.** clipped_surrogate
 - [x] **47.** value_function_loss
-- [ ] **48.** entropy_bonus
+- [x] **48.** entropy_bonus
 - [ ] **49.** ppo_loss
 - [ ] **50.** kl_penalized_reward
 - [ ] **51.** batch_sequence_logprob

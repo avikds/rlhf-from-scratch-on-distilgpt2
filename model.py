@@ -717,8 +717,18 @@ def value_function_loss(values, returns):
     """Mean squared error between predicted values and target returns."""
     return torch.mean((values - returns) ** 2)
 
-# Step 48 - entropy_bonus (not yet solved)
-# TODO: implement
+# Step 48 - entropy_bonus
+def entropy_bonus(logits):
+    """Return mean categorical entropy of the distribution defined by `logits` over the last axis."""
+    # Compute log-probabilities and probabilities over the vocabulary axis.
+    log_probs = torch.log_softmax(logits, dim=-1)
+    probs = torch.softmax(logits, dim=-1)
+
+    # Entropy: -sum(p * log p) over the vocabulary dimension.
+    entropy = -(probs * log_probs).sum(dim=-1)
+
+    # Average over all leading dimensions.
+    return entropy.mean()
 
 # Step 49 - ppo_loss (not yet solved)
 # TODO: implement
